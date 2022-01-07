@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap" rel="stylesheet">
+        <title>Shopping List</title>
+    </head>
+
+    <body>
+        <div class="bodypart">
+            <header class="navbar">
+                <h1 class="navbar__head">Shopping List</h1>
+                <ul class="navbar__navigation">
+                    <li class="navbar__navigation-item"><a href="#" class="navbar__link">Create new list</a></li>
+                    <li class="navbar__navigation-item"><a href="#" class="navbar__link">View list history</a></li>
+                </ul>
+            </header>
+
+            <main>
+
+                <section>
+                    <h1>List's Name</h1>
+                    <form class="form" method="POST">
+                        <input type="text" class="form__input" name="item" id="input" placeholder="Add item">
+                        <button type="submit" class="form__entry">Add</button>
+                    </form>
+                </section>
+
+                <section>
+
+                    {% for entry in entries %}
+                    <div class="listitem">
+                        <p>
+                            <input type="checkbox" id="{{entry}}">
+                            <label for="{{entry}}">{{entry}}</label>
+                        </p>
+                    </div>
+                    {% endfor %}
+                </section>
+            </main>
+
+            <footer></footer>
+
+            <script src="/static/script.js"></script>
+
+        </div>
+
+    </body>
+
+</html>
