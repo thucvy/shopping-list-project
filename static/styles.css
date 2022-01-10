@@ -54,7 +54,7 @@ main{
 
 .form-item__input{
     width: 100%;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 500;
     margin-right: 20px;
     border: none;
@@ -63,7 +63,8 @@ main{
 }
 
 .listitem{
-    font-size: 20px;
+    font-size: 25px;
+    margin-left: 30px;
 }
 
 .submitbar {
