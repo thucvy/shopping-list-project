@@ -35,14 +35,19 @@
                 <section>
                     <!-- Add text box for user to input the name of the new list (required) -->
                     <p>
-                    <form class="form-list" method="POST">
-                        <input type="text" class="form-list__input" placeholder="Name your new list" required>
+                    <form class="form-list" method="POST" onsubmit="return false">
+                        <input type="text" class="form-list__input" name="list" placeholder="Name your new list"
+                            value="{{ listname }}" required>
+                        <button type="submit class=" form__entry">Save List Name</button>
                     </form>
 
                     </p>
 
-                    <!-- Add text box and button to add items into list  -->
                     <form class="form-item" method="POST">
+                        <!-- Add text box for user to input the name of the new list (required) -->
+                        <!-- <input type="text" class="form-list__input" name="list" placeholder="Name your new list" value="" required> -->
+                        <!-- Add text box and button to add items into list  -->
+
                         <input type="text" class="form-item__input" name="item" id="input" placeholder="Add item"
                             required>
                         <button type="submit" class="form__entry">Add</button>

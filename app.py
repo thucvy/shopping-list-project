@@ -8,8 +8,7 @@ def home():
     if request.method == "POST":
         entry_content = request.form.get("item") #get the name of the input field which is "item"
         entries.append(entry_content)
-        
-    return render_template('home.html', entries = entries)
+    return render_template('home.html', entries = entries, listname = "listname")
 
 if __name__ == '__main__':
     app.run(debug=True)
