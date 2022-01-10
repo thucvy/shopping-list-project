@@ -12,6 +12,7 @@
 
     <body>
         <div class="bodypart">
+            <!-- create a navbar which contains a header for Shopping List and 2 links for 'Create new list' and 'View list history' -->
             <header class="navbar">
                 <h1 class="navbar__head">Shopping List</h1>
                 <ul class="navbar__navigation">
@@ -20,18 +21,27 @@
                 </ul>
             </header>
 
+            <!-- Below is the main body of the web (below the nav bar) -->
             <main>
 
+                <!-- This is the 1st section where there's a text box to input 'List name' and another text box to add 'Item name' -->
                 <section>
-                    <h1>List's Name</h1>
-                    <form class="form" method="POST">
-                        <input type="text" class="form__input" name="item" id="input" placeholder="Add item">
+                    <!-- Add text box for user to input the name of the new list (required) -->
+                    <p>
+                    <form class="form-list" method="POST">
+                        <input type="text" class="form-list__input" placeholder="Name your new list" required>
+                    </form>
+
+                    </p>
+
+                    <form class="form-item" method="POST">
+                        <input type="text" class="form-item__input" name="item" id="input" placeholder="Add item">
                         <button type="submit" class="form__entry">Add</button>
                     </form>
                 </section>
 
+                <!-- This is the 2nd section which display all items that are added from the input bar above along with other information -->
                 <section>
-
                     {% for entry in entries %}
                     <div class="listitem">
                         <p>

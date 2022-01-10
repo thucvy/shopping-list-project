@@ -37,12 +37,23 @@ main{
     padding: 0 20px;
 }
 
-.form{
-    display: flex;
-   
+.form-list__input{
+    width: 100%;
+    font-size: 30px;
+    font-weight: 500;
+    margin-right: 20px;
+    border: none;
+    background-color: #f3f6f6;
+    padding: 5px;
+    max-width: fit-content;
 }
 
-.form__input{
+
+.form-item{
+    display: flex;
+}
+
+.form-item__input{
     width: 100%;
     font-size: 20px;
     font-weight: 500;
