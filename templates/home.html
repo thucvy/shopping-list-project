@@ -34,6 +34,7 @@
 
                     </p>
 
+                    <!-- Add text box and button to add items into list  -->
                     <form class="form-item" method="POST">
                         <input type="text" class="form-item__input" name="item" id="input" placeholder="Add item">
                         <button type="submit" class="form__entry">Add</button>
@@ -51,9 +52,17 @@
                     </div>
                     {% endfor %}
                 </section>
+
+                <section>
+                    <div class="submitbar">
+                        <ul class="submitbar__navigation">
+                            <li class="submitbar__navigation-item"><a href="#" class="submitbar__link">Save</a></li>
+                            <li class="submitbar__navigation-item"><a href="#" class="submitbar__link">Discard</a></li>
+                    </div>
+                </section>
             </main>
 
-            <footer></footer>
+
 
             <script src="/static/script.js"></script>
 

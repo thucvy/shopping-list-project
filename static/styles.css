@@ -38,14 +38,13 @@ main{
 }
 
 .form-list__input{
-    width: 100%;
+    width: 70%;
     font-size: 30px;
     font-weight: 500;
     margin-right: 20px;
     border: none;
     background-color: #f3f6f6;
-    padding: 5px;
-    max-width: fit-content;
+    padding: 10px;
 }
 
 
@@ -66,3 +65,42 @@ main{
 .listitem{
     font-size: 20px;
 }
+
+.submitbar {
+    max-width: 640px;
+    margin: 50px auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: right;
+    font-size: 20px; 
+}
+
+.submitbar__navigation{
+    list-style: none;
+    display: flex;
+    padding: 0;
+    align-items: center;
+}
+
+.submitbar__navigation-item{
+    margin-left: 50px;
+}
+
+.submitbar__link{
+  background-color: #f7ede2;
+  border: none;
+  border-radius: 12px;
+  display: inline-block;
+  float: none;
+  font-size:20px;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 0.4s;
+  width: 100px;
+  height: 30px;
+}
+
+.submitbar__link:hover{
+  background-color: #4CAF50;
+  color: white;
