@@ -16,7 +16,14 @@
             <header class="navbar">
                 <h1 class="navbar__head">Shopping List</h1>
                 <ul class="navbar__navigation">
+                    <!-- Create new list link : once hit, 
+                        1. If both List Name AND current Item list = empty -> no action (or go straight to Home page)
+                        2. If there's changes in List Name and associated Item list (compared to database)
+                            a. If no change -> go back to Home page
+                            b. If there's change -> prompt to ask user to either save or discard
+                    -->
                     <li class="navbar__navigation-item"><a href="#" class="navbar__link">Create new list</a></li>
+                    <!-- View list history link  -->
                     <li class="navbar__navigation-item"><a href="#" class="navbar__link">View list history</a></li>
                 </ul>
             </header>
@@ -54,10 +61,13 @@
                     {% endfor %}
                 </section>
 
+                <!-- Last section to have the option for save and discard  -->
                 <section>
                     <div class="submitbar">
                         <ul class="submitbar__navigation">
+                            <!-- Save button: once hit, save data to database and automatically go to View list history.  -->
                             <li class="submitbar__navigation-item"><a href="#" class="submitbar__link">Save</a></li>
+                            <!-- Discard button: once hit, prompt to ensure with user -> remove everything/ not stored in database and go back to Home page  -->
                             <li class="submitbar__navigation-item"><a href="#" class="submitbar__link">Discard</a></li>
                     </div>
                 </section>
