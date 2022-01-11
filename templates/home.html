@@ -18,11 +18,14 @@
                 <ul class="navbar__navigation">
                     <!-- Create new list link : once hit, 
                         1. If both List Name AND current Item list = empty -> no action (or go straight to Home page)
-                        2. If there's changes in List Name and associated Item list (compared to database)
-                            a. If no change -> go back to Home page
-                            b. If there's change -> prompt to ask user to either save or discard
-                    -->
-                    <li class="navbar__navigation-item"><a href="#" class="navbar__link">Create new list</a></li>
+                        2. Check if there's changes in List Name and associated Item list (compared to database)
+                            a. If no change -> go back to Home page with empty data
+                            b. If there's change -> prompt to ask user to either save or discard-->
+
+                    <li class="navbar__navigation-item">
+                        <a href="/" class="navbar__link">Create new list</a>
+                    </li>
+
                     <!-- View list history link  -->
                     <li class="navbar__navigation-item"><a href="#" class="navbar__link">View list history</a></li>
                 </ul>
@@ -33,15 +36,6 @@
 
                 <!-- This is the 1st section where there's a text box to input 'List name' and another text box to add 'Item name' -->
                 <section>
-                    <!-- Add text box for user to input the name of the new list (required) -->
-                    <!-- <p>
-                    <form class="form-list" method="POST">
-                        <input type="text" class="form-list__input" name="list" value="{{listname}}"
-                            placeholder="Name your new list" required>
-                        <button type="submit class=" form__entry">Save List Name</button>
-                    </form>
-                    </p> -->
-
                     <form class="form" method="POST">
                         <!-- Add text box for user to input the name of the new list (required) -->
                         <p>
@@ -79,19 +73,19 @@
 
                 <!-- Last section to have the option for save and discard  -->
                 <section>
-                    <div class="submitbar">
+                    <div" class="submitbar">
                         <ul class="submitbar__navigation">
                             <!-- Save button: once hit, save data to database and automatically go to View list history.  -->
-                            <li class="submitbar__navigation-item"><a href="#" class="submitbar__link">Save</a></li>
+                            <li class="submitbar__navigation-item"><a href="/save" class="submitbar__link">Save</a></li>
                             <!-- Discard button: once hit, prompt to ensure with user -> remove everything/ not stored in database and go back to Home page  -->
-                            <li class="submitbar__navigation-item"><a href="#" class="submitbar__link">Discard</a></li>
-                    </div>
-                </section>
-            </main>
+                            <li class="submitbar__navigation-item"><a href="/" class="submitbar__link">Discard</a></li>
+        </div>
+        </section>
+        </main>
 
 
 
-            <script src="/static/script.js"></script>
+        <script src="/static/script.js"></script>
 
         </div>
 
