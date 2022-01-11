@@ -6,6 +6,9 @@ body{
     background-color: #f7ede2;
 }
 
+h1{
+    text-align: center;
+}
 .bodypart{
     background-color: white;
     margin: 50px 200px;
@@ -31,6 +34,7 @@ body{
 
 .navbar__navigation-item{
     margin-left: 50px;
+    text-align: center;
 }
 
 main{
