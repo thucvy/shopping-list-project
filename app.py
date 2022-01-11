@@ -12,14 +12,26 @@ app = Flask(__name__)
 
 # cur = conn.cursor()
 
-entries = []
+entries =[]
 
 @app.route("/", methods =["GET", "POST"])
 def home():
+    # if request.method == "POST":
+        # listname = request.form.get("list") #get the name of the list input which is "list"
+        # entry_content = request.form.get("item") #get the name of the item input which is "item"
+        # if not request.form.get("list") and not entry_content:
+        #     print("You need to save or discard the current list in order to proceed")
+    return render_template('home.html')
+
+
+@app.route("/display", methods =["GET", "POST"])
+def display():
     if request.method == "POST":
         # listname = request.form.get("list") #get the name of the list input which is "list"
         entry_content = request.form.get("item") #get the name of the item input which is "item"
-        entries.append(entry_content)
+        if entry_content not in entries:
+            entries.append(entry_content)
+
         #feed input to database
         # cur.execute("INSERT INTO Details (list,item) VALUES (%s,%s)", (listname, entry_content))
         # conn.commit()
@@ -28,6 +40,21 @@ def home():
         # entries = cur.execute("SELECT item FROM Details")
     return render_template('home.html', entries = entries, listname = request.form.get("list"))
 
+@app.route("/display/save-discard", methods =["GET", "POST"])
+def displaysavediscard():
+    if request.method == "POST":
+        # listname = request.form.get("list") #get the name of the list input which is "list"
+        entry_content = request.form.get("item") #get the name of the item input which is "item"
+        if entry_content not in entries:
+            entries.append(entry_content)
+                 
+        #feed input to database
+        # cur.execute("INSERT INTO Details (list,item) VALUES (%s,%s)", (listname, entry_content))
+        # conn.commit()
+
+        #Display entries from database
+        # entries = cur.execute("SELECT item FROM Details")
+    return render_template('save-discard.html', entries = entries, listname = request.form.get("list"))
 
 @app.route("/save", methods =["GET","POST"])
 def save():

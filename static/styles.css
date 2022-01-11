@@ -9,6 +9,11 @@ body{
 h1{
     text-align: center;
 }
+
+h2{
+    color:red;
+}
+
 .bodypart{
     background-color: white;
     margin: 50px 200px;
