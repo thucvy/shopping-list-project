@@ -34,23 +34,34 @@
                 <!-- This is the 1st section where there's a text box to input 'List name' and another text box to add 'Item name' -->
                 <section>
                     <!-- Add text box for user to input the name of the new list (required) -->
-                    <p>
-                    <form class="form-list" method="POST" onsubmit="return false">
-                        <input type="text" class="form-list__input" name="list" placeholder="Name your new list"
-                            value="{{ listname }}" required>
+                    <!-- <p>
+                    <form class="form-list" method="POST">
+                        <input type="text" class="form-list__input" name="list" value="{{listname}}"
+                            placeholder="Name your new list" required>
                         <button type="submit class=" form__entry">Save List Name</button>
                     </form>
+                    </p> -->
 
-                    </p>
-
-                    <form class="form-item" method="POST">
+                    <form class="form" method="POST">
                         <!-- Add text box for user to input the name of the new list (required) -->
-                        <!-- <input type="text" class="form-list__input" name="list" placeholder="Name your new list" value="" required> -->
-                        <!-- Add text box and button to add items into list  -->
+                        <p>
+                            {% if not listname %}
+                            <input type="text" class="form-list__input" name="list" placeholder="Name your new list"
+                                required>
+                            {% else %}
+                            <input type="text" class="form-list__input" name="list" value="{{listname}}"
+                                placeholder="Name your new list" required>
 
-                        <input type="text" class="form-item__input" name="item" id="input" placeholder="Add item"
-                            required>
-                        <button type="submit" class="form__entry">Add</button>
+                            {% endif %}
+                        </p>
+
+                        <!-- Add text box and button to add items into list  -->
+                        <div class="form-item">
+                            <input type="text" class="form-item__input" name="item" id="input" placeholder="Add item"
+                                required>
+                            <button type="submit" class="form__entry">Add</button>
+                        </div>
+
                     </form>
                 </section>
 
