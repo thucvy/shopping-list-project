@@ -41,16 +41,15 @@
                 <section>
                     <form class="form" method="POST" action="/display">
                         <!-- Add text box for user to input the name of the new list (required) -->
-                        <p>
+                        <div>
                             {% if not listname %}
-                            <input type="text" class="form-list__input" name="list" placeholder="Name your new list"
-                                required>
-                            {% else %}
-                            <input type="text" class="form-list__input" name="list" value="{{listname}}"
+                            <input type="text" class="form-list__input" name="list" id="input"
                                 placeholder="Name your new list" required>
-
+                            {% else %}
+                            <input type="text" class="form-list__input" name="list" id="input" value="{{listname}}"
+                                placeholder="Name your new list" required>
                             {% endif %}
-                        </p>
+                        </div>
 
                         <!-- Add text box and button to add items into list  -->
                         <div class="form-item">
