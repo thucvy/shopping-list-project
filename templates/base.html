@@ -43,18 +43,18 @@
                         <!-- Add text box for user to input the name of the new list (required) -->
                         <div>
                             {% if not listname %}
-                            <input type="text" class="form-list__input" name="list" id="input"
+                            <input type="text" class="form-list__input" name="list" id="input" maxlength="30"
                                 placeholder="Name your new list" required>
                             {% else %}
                             <input type="text" class="form-list__input" name="list" id="input" value="{{listname}}"
-                                placeholder="Name your new list" required>
+                                maxlength="30" required>
                             {% endif %}
                         </div>
 
                         <!-- Add text box and button to add items into list  -->
                         <div class="form-item">
-                            <input type="text" class="form-item__input" name="item" id="input" placeholder="Add item"
-                                required>
+                            <input type="text" class="form-item__input" name="item" id="input" maxlength="30"
+                                placeholder="Add item" required>
                             <button type="submit" class="form__entry">Add</button>
                         </div>
 
@@ -78,10 +78,11 @@
                 <section>
                     <div" class="submitbar">
                         <ul class="submitbar__navigation">
-                            <!-- Save button: once hit, save data to database and automatically go to View list history.  -->
+                            <!-- Save button: once hit, save records/ changes to DB (which was automatically done when input) and redirect to View list history.  -->
                             <li class="submitbar__navigation-item"><a href="/save" class="submitbar__link">Save</a></li>
-                            <!-- Discard button: once hit, prompt to ensure with user -> remove everything/ not stored in database and go back to Home page  -->
-                            <li class="submitbar__navigation-item"><a href="/" class="submitbar__link">Discard</a></li>
+                            <!-- Discard button: once hit, prompt to ensure with user -> discard all records that are currently displayed and go back to Home page  -->
+                            <li class="submitbar__navigation-item"><a href="/discard"
+                                    class="submitbar__link">Discard</a></li>
                         </ul>
         </div>
         </section>
