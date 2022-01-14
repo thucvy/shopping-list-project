@@ -77,7 +77,6 @@ def create_app():
     #Home page with inputs AND with notice (to ask user to either save or discard the inputs)
     @app.route("/display/with-notice", methods =["GET", "POST"])
     def display_withnotice():
-        # if request.method == "GET":
         #Create the joint table 'item_list'
         item_list_sql = 'SELECT i.ItemName, l.listName FROM items i JOIN lists l ON i.list_id = l.id'
         cursor.execute(item_list_sql)
