@@ -1,11 +1,9 @@
 import pymysql
 from flask import Flask, render_template, request
-# from insertdatanew import mysqlconnect
 
 def create_app():
     app = Flask(__name__)
     # Connect to DB
-    # def dbconnection():
     connection = pymysql.connect(
         host='testshoppinglist.cehvmw6cebib.us-east-1.rds.amazonaws.com',
         port=3306,
@@ -24,17 +22,15 @@ def create_app():
     # cursor.execute(list_create_sql)
 
     #Create 'items' table into the database.
-    # item_create_sql = 'CREATE TABLE items (id INT PRIMARY KEY AUTO_INCREMENT,ItemName VARCHAR(30) NOT NULL,' \
-    #             'Quantity INT, Unit VARCHAR(10), Notes VARCHAR(100), Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,' \
-    #             'list_id INT NOT NULL, FOREIGN KEY (list_id) REFERENCES lists (id))'
     # item_create_sql = 'CREATE TABLE items (id INT PRIMARY KEY AUTO_INCREMENT, ItemName VARCHAR(30) NOT NULL,' \
+    #                 'Quantity INT, Unit VARCHAR(10), Notes VARCHAR(100),' \
     #                 'Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,' \
     #                 'list_id INT NOT NULL, CONSTRAINT List_ItemName UNIQUE (list_id,ItemName),' \
     #                 'CONSTRAINT FK_ListID FOREIGN KEY (list_id) REFERENCES lists(id) ON DELETE CASCADE)'
     # cursor.execute(item_create_sql)
     # connection.commit()
 
-    #Home page without input (to be redirected back when discard or create new list)
+    #Home page without input
     @app.route("/", methods =["GET", "POST"])
     def home(): 
         return render_template('home.html',entries = "", listname = "")
@@ -74,25 +70,6 @@ def create_app():
             
         return render_template('home.html', entries = entries, listname = listname)
 
-    #Home page with inputs AND with notice (to ask user to either save or discard the inputs)
-    @app.route("/display/with-notice", methods =["GET", "POST"])
-    def display_withnotice():
-        #Create the joint table 'item_list'
-        item_list_sql = 'SELECT i.ItemName, l.listName FROM items i JOIN lists l ON i.list_id = l.id'
-        cursor.execute(item_list_sql)
-        item_list = cursor.fetchall()
-        
-        #Display the last list name that user inputs from the joint table 'item_list'
-        listname = item_list[len(item_list)-1][1] 
-        
-        #entries is a list of all items in the DB (consider entries as list)
-        entries = [
-            item_list[index][0] 
-            for index in range(len(item_list)) #list all item names in the entries list
-        ]
-        connection.commit()
-        
-        return render_template('with-notice.html', entries = entries, listname = listname)
 
     #'Discard' button --> to remove the current list with items from DB
     @app.route("/discard", methods = ["GET", "POST"])
@@ -118,5 +95,4 @@ def create_app():
     def save():
         return 'go to View history page'
         
-    # connection.close()
     return app
