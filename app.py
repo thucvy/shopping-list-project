@@ -4,14 +4,14 @@ from flask import Flask, render_template, request
 def create_app():
     app = Flask(__name__)
     # Connect to DB
-    connection = pymysql.connect(
-        host='testshoppinglist.cehvmw6cebib.us-east-1.rds.amazonaws.com',
-        port=3306,
-        user='admin',
-        password='password1',
-        db='ShoppingList'
-    )
-    cursor = connection.cursor()
+    # connection = pymysql.connect(
+    #     host='testshoppinglist.cehvmw6cebib.us-east-1.rds.amazonaws.com',
+    #     port=3306,
+    #     user='admin',
+    #     password='password1',
+    #     db='ShoppingList'
+    # )
+    # cursor = connection.cursor()
 
     # cursor.execute("DROP TABLE IF EXISTS items")
     # cursor.execute("DROP TABLE IF EXISTS lists")
