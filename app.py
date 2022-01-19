@@ -1,5 +1,6 @@
+import re
 import pymysql
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 
 def create_app():
     app = Flask(__name__)
@@ -90,6 +91,8 @@ def create_app():
         list_delete_sql = "DELETE FROM lists WHERE listName = %s"
         cursor.execute(list_delete_sql,listname)
 
+        connection.commit()
+        return render_template('home.html', entries = "", listname = "")
         
     #Data was already saved in DB automatically when user inputs, this 'Save' button is only to redirect to the 'View history' page
     @app.route("/save", methods =["GET","POST"])
@@ -132,21 +135,21 @@ def create_app():
         return response
 
     # Updated for DELETE LIST
-    @app.route("/list_delete/<lname>", methods =["GET","POST"])
+    @app.route("/list_delete/<lname>", methods =["POST","GET"])
     def list_delete(lname):
         print("in delete method")
         sql_delete_list = "DELETE from lists where listName = %s"
         cursor.execute(sql_delete_list, lname)
         connection.commit()
         print("Deleted rows : "+str(cursor.rowcount))
-        list_sql = 'SELECT listName, Date FROM lists'
-        cursor.execute(list_sql)
-        result_record = cursor.fetchall()
+        # list_sql = 'SELECT listName, Date FROM lists'
+        # cursor.execute(list_sql)
+        # result_record = cursor.fetchall()
 
-        print("The records list is", recordslist)
+        # print("The records list is", recordslist)
 
         # return html page and list information
-        return render_template('save.html', recordslist=result_record)   
+        return redirect(url_for('save'))   
     return app
 
 if __name__ == '__main__':

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,74 +5,79 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="static\styles.css">
+        <link rel="stylesheet" href="/static/styles.css">
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <title>Shopping List</title>
     </head>
 
-    <body>
+    <body style="background-color: #f7ede2; display: flex; flex-direction: column; min-width: 1000px">
         <div class="bodypart">
             <!-- create a navbar which contains a header for Shopping List and 2 links for 'Create new list' and 'View list history' -->
             <header class="navbar">
                 <h1 class="navbar__head">Shopping List</h1>
                 <ul class="navbar__navigation">
                     <!-- Create new list link : once hit, 
-                        1. If both List Name AND current Item list = empty -> no action (or go straight to Home page)
-                        2. Check if there's changes in List Name and associated Item list (compared to database)
-                            a. If no change -> go back to Home page with empty data
-                            b. If there's change -> prompt to ask user to either save or discard-->
+                    1. If both List Name AND current Item list = empty -> no action (or go straight to Home page)
+                    2. If there's change -> prompt to ask user to either save or discard
+                    -->
                     {% if not listname %}
-                        <li class="navbar__navigation-item"><a href="/" class="navbar__link">Create new list</a></li>
+                    <li class="navbar__navigation-item"><a href="/" class="navbar__link">Create new list</a></li>
+                    <li class="navbar__navigation-item"><a href="/save" class="navbar__link">View list history</a></li>
                     {% else %}
-                        <li class="navbar__navigation-item"><a href="/display/save-discard" class="navbar__link">Create new list</a></li>
+                    <li class="navbar__navigation-item"><a href="#" class="navbar__link" data-toggle="modal"
+                            data-target="#promptask-newModal">Create new
+                            list</a></li>
+                    <li class="navbar__navigation-item"><a href="#" class="navbar__link" data-toggle="modal"
+                            data-target="#promptask-historyModal">View list history</a></li>
                     {% endif %}
 
-                    <!--View list history link-->
-                    <li class="navbar__navigation-item"><a href="/save" class="navbar__link">View list history</a></li>
+                    <!-- View list history link -->
+
                 </ul>
             </header>
-
             <!-- Below is the main body of the web (below the nav bar) -->
             <main>
-
                 <!-- This is the 1st section where there's a text box to input 'List name' and another text box to add 'Item name' -->
                 <section>
                     <form class="form" method="POST" action="/display">
                         <!-- Add text box for user to input the name of the new list (required) -->
-                        <p>
+                        <div>
                             {% if not listname %}
-                                <input type="text" class="form-list__input" name="list" placeholder="Name your new list" required>
+                            <input type="text" class="form-list__input" name="list" id="input" maxlength="30"
+                                placeholder="Name your new list" required>
                             {% else %}
-                                <input type="text" class="form-list__input" name="list" value="{{listname}}" placeholder="Name your new list" required>
+                            <input type="text" class="form-list__input" name="list" id="input" value="{{listname}}"
+                                maxlength="30" required>
                             {% endif %}
-                        </p>
+                        </div>
 
-                        <!-- Add text box and button to add items into list  -->
+                        <!-- Add text box and button to add items into list -->
                         <div class="form-item">
-                            <input type="text" class="form-item__input" name="item" id="input" placeholder="Add item" required>
+                            <input type="text" class="form-item__input" name="item" id="input" maxlength="30"
+                                placeholder="Add item" required>
                             <button type="submit" class="form__entry">Add</button>
                         </div>
 
                     </form>
                 </section>
 
-                <!-- This is the 2nd section which display all items that are added from the input bar above along with other information -->
+                <!-- This is the 2nd section which display all items that are added from the input bar above along with other information -- NEED MERGE -->
                 <section>
                     {% for entry in entries %}
                     <div class="listitem">
                         <p>
                             <input type="checkbox" id="{{entry}}">
-                            <label for="{{entry}}" class="strikethrough">{{entry}}</label>
-                                <!--<button type="button" style="float: right;" class="list_row_delete">Delete</button> -->
-                                <a class="list_row_delete" style="float: right;" href="/delete/{{entry}}/{{listname}}"><span class="button-item">Delete</span></a>
-                                <!--<a class="view_list_history_button" href="view_list_history.html"><span class="button-item">View list history</span></a>-->
+                            <label for="{{entry}}">{{entry}}</label>
+                            <a class="list_row_delete" style="float: right;" href="/delete/{{entry}}/{{listname}}"><span
+                                    class="button-item">Delete</span></a>
 
-                            <input type="text" style="float: right;" class="list_row_notes" placeholder="Notes">
+                            <input type="text" style="float: right;" class="list_row_notes" name="row_note"
+                                placeholder="Notes">
 
                             <!-- Change Vendor to unit -->
-                            <!-- <input type="text" style="float: right;" class="list_row_vendor" name="list_row_vendor"> -->
-                            <!--<input type="text" style="float: right;" class="list_row_unit" placeholder="kg, lb">-->
-                            <!--<label for="row_units">Unit</label>-->
+
                             <select name="row_units" id="row_units" style="float: right;">
                                 <option value="kg">kg</option>
                                 <option value="lb">lb</option>
@@ -81,33 +85,111 @@
                             </select>
 
                             <!-- Quantity text box -->
-                            <input type="number" style="float: right;" id="list_row_quantity" name="list_row_quantity"  min="1" max="99" step="1" value="1">
+                            <input type="number" style="float: right;" id="list_row_quantity" name="row_quantity"
+                                min="1" max="99" step="1" value="1">
 
                         </p>
+
                     </div>
                     {% endfor %}
                 </section>
 
                 <!-- Last section to have the option for save and discard  -->
                 <section>
-                    <div class="submitbar">
+                    <div" class="submitbar">
                         <ul class="submitbar__navigation">
-                            <!-- Save button: once hit, save data to database and automatically go to View list history.  -->
+                            {% if listname %}
+                            <!-- Save button: once hit, save records/ changes to DB (which was automatically done when input) and redirect to View list history.  -->
                             <li class="submitbar__navigation-item"><a href="/save" class="submitbar__link">Save</a></li>
-                            <!-- Discard button: once hit, prompt to ensure with user -> remove everything/ not stored in database and go back to Home page  -->
-                            <li class="submitbar__navigation-item"><a href="/" class="submitbar__link">Discard</a></li>
+                            <!-- Discard button: once hit, prompt to ensure with user -> discard all records that are currently displayed and go back to Home page  -->
+                            <li class="submitbar__navigation-item"><button type="button" class="submitbar__link"
+                                    data-toggle="modal" data-target="#deleteModal">Discard</button>
+                            </li>
+                            {% endif %}
                         </ul>
+        </div>
+        </section>
+        </main>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+        <!-- Prompt Ask - New Modal -->
+        <div class="modal fade" id="promptask-newModal" tabindex="-1" role="dialog"
+            aria-labelledby="promptask-newModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="promptask-newModalLabel" style="font-size: 17px;">Save or Discard?
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </section>
-            </main>
-
-        <script src="/static/script.js"></script>
-
+                    <div class="modal-body">
+                        Do you want to save the current list?
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/" class="btn btn-primary">Save</a>
+                        <button type="button" class="btn btn-secondary" data-toggle="modal"
+                            data-target="#deleteModal">Discard</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- Prompt Ask - New Modal -->
+        <div class="modal fade" id="promptask-historyModal" tabindex="-1" role="dialog"
+            aria-labelledby="promptask-historyModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="promptask-historyModalLabel" style="font-size: 17px;">Save or
+                            Discard?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Do you want to save the current list?
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/save" class="btn btn-primary">Save</a>
+                        <button type="button" class="btn btn-secondary" data-toggle="modal"
+                            data-target="#deleteModal">Discard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discard Modal -->
+        <div class=" modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel" style="font-size: 17px;">Discard?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        This will remove the list and cannot be undone. Still want to discard?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a href="/discard" class="btn btn-danger"">Discard</a>
+                </div>
+            </div>
+        </div>
+    </div>
     </body>
 
 </html>
-=======
-{% extends "base.html" %}
->>>>>>> merge-phase1

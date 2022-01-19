@@ -122,8 +122,20 @@ main{
   height: 40px;
 }
 
-.submitbar__link:hover, .submitbar__link:focus{
+.submitbar__link:hover {
   background-color: #ffddd2;
   color: #6c757d;
   text-decoration: none;
   cursor: pointer;
+}
+
+.table__row-delete-button {
+    border: none;
+    background-color: #f7ede2;
+    text-decoration: none;
+    color: black;
+}
+
+.table__row-delete-button:hover {
+    cursor: pointer;
+}
