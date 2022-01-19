@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +9,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap" rel="stylesheet">
         <title>Create New List</title>
     </head>
+
     <body>
-        <h1 align = "center">
+        <h1 align="center">
             LIST HISTORY
             <a class="history_new_list_button" href="/"><span class="button-item">Create new list</span></a>
         </h1>
@@ -25,17 +27,19 @@
                         </tr>
                     </thead>
                     {% for row in recordslist %}
-                        <tr class="table__row">
+                    <tr class="table__row">
 
 
 
-                            <td class="table__cell"> <a name="name_of_list" href="/save/display/{{row[0]}}">{{row[0]}}</a> </td>
+                        <td class="table__cell"> <a name="name_of_list" href="/save/display/{{row[0]}}">{{row[0]}}</a>
+                        </td>
 
-                            <!-- <td class="table__cell">{{row[0]}}</td> -->
-                            <td class="table__cell">{{row[1]}}</td>
-                            <td class="table__cell"> <a class="delete_list_button" href="/list_delete/{{row[0]}}"><span class="button-item">Delete</span></a> </td>
+                        <!-- <td class="table__cell">{{row[0]}}</td> -->
+                        <td class="table__cell">{{row[1]}}</td>
+                        <td class="table__cell"> <a class="delete_list_button" href="/list_delete/{{row[0]}}"><span
+                                    class="button-item">Delete</span></a> </td>
 
-                        </tr>
+                    </tr>
                     {% endfor %}
                 </table>
 
@@ -47,4 +51,5 @@
     <footer>
 
     </footer>
+
 </html>

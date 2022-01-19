@@ -33,7 +33,7 @@
                     {% endif %}
 
                     <!-- View list history link  -- NEED MERGE-->
-                    <li class="navbar__navigation-item"><a href="/save" class="navbar__link">View list history</a></li>
+                    <li class="navbar__navigation-item"><a href="#" class="navbar__link">View list history</a></li>
                 </ul>
             </header>
             <!-- Below is the main body of the web (below the nav bar) -->
@@ -69,24 +69,6 @@
                         <p>
                             <input type="checkbox" id="{{entry}}">
                             <label for="{{entry}}">{{entry}}</label>
-                            <a class="list_row_delete" style="float: right;" href="/delete/{{entry}}/{{listname}}"><span
-                                    class="button-item">Delete</span></a>
-
-                            <input type="text" style="float: right;" class="list_row_notes" name="row_note"
-                                placeholder="Notes">
-
-                            <!-- Change Vendor to unit -->
-
-                            <select name="row_units" id="row_units" style="float: right;">
-                                <option value="kg">kg</option>
-                                <option value="lb">lb</option>
-                                <option value="ounce">ounce</option>
-                            </select>
-
-                            <!-- Quantity text box -->
-                            <input type="number" style="float: right;" id="list_row_quantity" name="row_quantity"
-                                min="1" max="99" step="1" value="1">
-
                         </p>
 
                     </div>
