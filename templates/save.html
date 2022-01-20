@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="static\styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>List History</title>
+    </head>
+
+    <!-- <body style="background-color: #f7ede2; display: flex; flex-direction: column; min-width: 1000px"> -->
+    <body class="table_body" style="background-color: #f7ede2; display: flex; flex-direction: column;">
+        <h1 text-align="center" class="list_history_text">
+            LIST HISTORY
+            <a class="history_new_list_button" href="/"><span >Create new list</span></a>
+        </h1>
+
+        <section>
+            <form class=" form" method="GET" action="/save">
+                <table align="center" class="table">
+                    <thead class="table__header" align="center">
+                        <tr class="table__row">
+                            <th class="table__header_1">List Name</th>
+                            <th class="table__header_2">Date Created</th>
+                            <th class="table__header_3"></th>
+                        </tr>
+                    </thead>
+                    {% for row in recordslist %}
+                    <tr class="table__row" align="center">
+                        <td class="table__cell_1"> <a name="name_of_list" href="/save/display/{{row[0]}}">{{row[0]}}</a>
+                        </td>
+
+                        <td class="table__cell_2">{{row[1]}}</td>
+                        <td class="table__cell_3">
+                            {% include 'confirm_delete_modal.html' %}
+                            <a href="/list_delete/{{row[0]}}" class="table__row-delete-button" data-toggle="modal"
+                                data-target="#confirmDeleteModal" id="deleteButton{{row[0]}}">
+                                <svg xmlns=" http://www.w3.org/2000/svg" width="20" height="20" fill="red"
+                                    class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path
+                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fill-rule="evenodd"
+                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </table>
+
+            </form>
+        </section>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+        <script src="/static/script.js"></script>
+
+    </body>
+
+</html>
