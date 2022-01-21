@@ -23,14 +23,16 @@
                     2. If there's change -> prompt to ask user to either save or discard
                     -->
                     {% if not listname %}
-                    <li class="navbar__navigation-item"><a href="/" class="navbar__link">Create new list</a></li>
-                    <li class="navbar__navigation-item"><a href="/save" class="navbar__link">View list history</a></li>
+                    <li class="navbar__navigation-item"><a href="/" class="navbar__link"><span
+                                class="button-item">Create new list</span></a></li>
+                    <li class="navbar__navigation-item"><a href="/save" class="navbar__link"><span
+                                class="button-item">View list history</span></a></li>
                     {% else %}
                     <li class="navbar__navigation-item"><a href="#" class="navbar__link" data-toggle="modal"
-                            data-target="#promptask-newModal">Create new
-                            list</a></li>
+                            data-target="#promptask-newModal"><span class="button-item">Create new list</span></a></li>
                     <li class="navbar__navigation-item"><a href="#" class="navbar__link" data-toggle="modal"
-                            data-target="#promptask-historyModal">View list history</a></li>
+                            data-target="#promptask-historyModal"><span class="button-item">View list history</span></a>
+                    </li>
                     {% endif %}
 
                     <!-- View list history link -->
@@ -68,11 +70,18 @@
                 <section>
                     <form class="listitem" method="POST" action="/save-details/{{listname}}">
                         {% for entry in entries %}
-                        <p>
-                            <input type="checkbox" id="{{entry[3]}}">
-                            <label for="{{entry[3]}}">{{entry[3]}}</label>
-                            <a class="list_row_delete" style="float: right;"
-                                href="/delete/{{entry[3]}}/{{listname}}"><span class="button-item">Delete</span></a>
+                        <p class="list_item_row">
+                            <input class="checkbox" type="checkbox" id="{{entry[3]}}">
+                            <label for="{{entry[3]}}" class="strikethrough">{{entry[3]}}</label>
+                            <a class="list_row_delete" style="float: right;" href="/delete/{{entry[3]}}/{{listname}}">
+                                <svg xmlns=" http://www.w3.org/2000/svg" width="20" height="20" fill="red"
+                                    class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path
+                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fill-rule="evenodd"
+                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
+                            </a>
 
                             <input type="hidden" name="row_item" value="{{entry[3]}}">
                             <input type="text" style="float: right;" class="list_row_notes" name="row_note"
@@ -80,7 +89,7 @@
 
                             <!-- Change Vendor to unit -->
 
-                            <select name="row_units" id="row_units" style="float: right;">
+                            <select name="row_units" id="row_units" style="float: right;" class="list_row_units">
                                 <option value="{{entry[1]}}">{{entry[1]}}</option>
                                 <option value="kg">kg</option>
                                 <option value="lb">lb</option>
@@ -88,8 +97,8 @@
                             </select>
 
                             <!-- Quantity text box -->
-                            <input type="number" style="float: right;" id="list_row_quantity" name="row_quantity"
-                                min="1" max="99" step="1" value="{{entry[0]}}">
+                            <input type="number" style="float: right;" class="list_row_quantity" id="list_row_quantity"
+                                name="row_quantity" min="1" max="99" step="1" value="{{entry[0]}}">
 
                         </p>
 

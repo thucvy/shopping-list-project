@@ -12,16 +12,16 @@
         <title>List History</title>
     </head>
 
-    <body style="background-color: #f7ede2; display: flex; flex-direction: column; min-width: 1000px">
-        <h1 text-align="center">
+    <body class="table_body" style="background-color: #f7ede2; display: flex; flex-direction: column;">
+        <h1 text-align="center" class="list_history_text">
             LIST HISTORY
-            <a class="history_new_list_button" href="/"><span class="button-item">Create new list</span></a>
+            <a class="history_new_list_button" href="/">Create new list</a>
         </h1>
 
         <section>
             <form class=" form" method="GET" action="/save">
                 <table align="center" class="table">
-                    <thead class="table__header">
+                    <thead class="table__header" align="center">
                         <tr class="table__row">
                             <th class="table__header">List Name</th>
                             <th class="table__header">Date Created</th>
@@ -29,12 +29,12 @@
                         </tr>
                     </thead>
                     {% for row in recordslist %}
-                    <tr class="table__row">
-                        <td class="table__cell"> <a name="name_of_list" href="/save/display/{{row[0]}}">{{row[0]}}</a>
+                    <tr class="table__row" align="center">
+                        <td class="table__cell_1"> <a name="name_of_list" href="/save/display/{{row[0]}}">{{row[0]}}</a>
                         </td>
 
-                        <td class="table__cell">{{row[1]}}</td>
-                        <td class="table__cell">
+                        <td class="table__cell_2">{{row[1]}}</td>
+                        <td class="table__cell_3">
                             {% include 'confirm_delete_modal.html' %}
                             <a href="/list_delete/{{row[0]}}" class="table__row-delete-button" data-toggle="modal"
                                 data-target="#confirmDeleteModal" id="deleteButton{{row[0]}}">
