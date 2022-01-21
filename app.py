@@ -18,7 +18,7 @@ def create_app():
 
     # #Create 'lists' table into the database.
     # list_create_sql = 'CREATE TABLE lists (id INT PRIMARY KEY AUTO_INCREMENT, listName VARCHAR(30) NOT NULL UNIQUE,' \
-    #                 'Date TIMESTAMP NOT NULL DEFAULT curRENT_TIMESTAMP)'
+    #                 'Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)'
     # cursor.execute(list_create_sql)
 
     
@@ -26,7 +26,7 @@ def create_app():
     # #Create 'items' table into the database.
     # item_create_sql = 'CREATE TABLE items (id INT PRIMARY KEY AUTO_INCREMENT, ItemName VARCHAR(30) NOT NULL,' \
     #                 'Quantity INT, Unit VARCHAR(10), Notes VARCHAR(100),' \
-    #                 'Date TIMESTAMP NOT NULL DEFAULT curRENT_TIMESTAMP,' \
+    #                 'Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,' \
     #                 'list_id INT NOT NULL, CONSTRAINT List_ItemName UNIQUE (list_id,ItemName),' \
     #                 'CONSTRAINT FK_ListID FOREIGN KEY (list_id) REFERENCES lists(id) ON DELETE CASCADE)'
     # cursor.execute(item_create_sql)
@@ -80,9 +80,9 @@ def create_app():
     @app.route("/discard/<listname>", methods = ["GET", "POST"])
     def discard(listname):
         #Create the joint table 'item_list'
-        item_list_sql = 'SELECT i.ItemName, l.listName FROM items i JOIN lists l ON i.list_id = l.id'
-        cursor.execute(item_list_sql)
-        item_list = cursor.fetchall()
+        # item_list_sql = 'SELECT i.ItemName, l.listName FROM items i JOIN lists l ON i.list_id = l.id'
+        # cursor.execute(item_list_sql)
+        # item_list = cursor.fetchall()
         
         #Display the last list name that user inputs from the joint table 'item_list'
         # listname = request.form.get('list_name') 
@@ -92,7 +92,7 @@ def create_app():
         cursor.execute(list_delete_sql,listname)
 
         connection.commit()
-        return render_template('home.html', entries = "", listname = "")
+        return redirect(url_for('home'))
         
     #Hit 'save' in order to save the additional info for items
     @app.route("/save-details/<lname>", methods =["GET","POST"])
