@@ -50,11 +50,12 @@
                             {% else %}
                             <input type="text" class="form-list__input" name="list" id="input" value="{{listname}}"
                                 maxlength="30" required>
+
                             {% endif %}
                         </div>
 
                         <!-- Add text box and button to add items into list -->
-                        <div class="form-item">
+                        <div class=" form-item">
                             <input type="text" class="form-item__input" name="item" id="input" maxlength="30"
                                 placeholder="Add item" required>
                             <button type="submit" class="form__entry">Add</button>
@@ -65,20 +66,22 @@
 
                 <!-- This is the 2nd section which display all items that are added from the input bar above along with other information -- NEED MERGE -->
                 <section>
-                    {% for entry in entries %}
-                    <div class="listitem">
+                    <form class="listitem" method="POST" action="/save-details/{{listname}}">
+                        {% for entry in entries %}
                         <p>
-                            <input type="checkbox" id="{{entry}}">
-                            <label for="{{entry}}">{{entry}}</label>
-                            <a class="list_row_delete" style="float: right;" href="/delete/{{entry}}/{{listname}}"><span
-                                    class="button-item">Delete</span></a>
+                            <input type="checkbox" id="{{entry[3]}}">
+                            <label for="{{entry[3]}}">{{entry[3]}}</label>
+                            <a class="list_row_delete" style="float: right;"
+                                href="/delete/{{entry[3]}}/{{listname}}"><span class="button-item">Delete</span></a>
 
+                            <input type="hidden" name="row_item" value="{{entry[3]}}">
                             <input type="text" style="float: right;" class="list_row_notes" name="row_note"
-                                placeholder="Notes">
+                                placeholder="Notes" value="{{entry[2]}}">
 
                             <!-- Change Vendor to unit -->
 
                             <select name="row_units" id="row_units" style="float: right;">
+                                <option value="{{entry[1]}}">{{entry[1]}}</option>
                                 <option value="kg">kg</option>
                                 <option value="lb">lb</option>
                                 <option value="ounce">ounce</option>
@@ -86,29 +89,37 @@
 
                             <!-- Quantity text box -->
                             <input type="number" style="float: right;" id="list_row_quantity" name="row_quantity"
-                                min="1" max="99" step="1" value="1">
+                                min="1" max="99" step="1" value="{{entry[0]}}">
 
                         </p>
 
-                    </div>
-                    {% endfor %}
-                </section>
+                        {% endfor %}
+                        <div" class="submitbar">
+                            <ul class="submitbar__navigation">
+                                {% if listname %}
+                                <!-- Save button: once hit, save records/ changes to DB (which was automatically done when input) and redirect to View list history.  -->
+                                <li class="submitbar__navigation-item">
+                                    <button type="submit" class="submitbar__link">Save</button>
+                                    <!-- <a href="/save-details/{{listname}}"
+                                        class="submitbar__link">Save</a> -->
+                                </li>
+                                <!-- Discard button: once hit, prompt to ensure with user -> discard all records that are currently displayed and go back to Home page  -->
+                                <li class="submitbar__navigation-item">
+                                    {% include 'confirm_discard_modal.html' %}
+                                    <a href="/discard/{{listname}}" class="submitbar__link" data-toggle="modal"
+                                        data-target="#deleteModal" id="discardButton{{listname}}">Discard</a>
+                                    <!-- <button type="button" class="submitbar__link"
+                                        data-toggle="modal" data-target="#deleteModal">Discard</button> -->
+                                </li>
 
-                <!-- Last section to have the option for save and discard  -->
-                <section>
-                    <div" class="submitbar">
-                        <ul class="submitbar__navigation">
-                            {% if listname %}
-                            <!-- Save button: once hit, save records/ changes to DB (which was automatically done when input) and redirect to View list history.  -->
-                            <li class="submitbar__navigation-item"><a href="/save" class="submitbar__link">Save</a></li>
-                            <!-- Discard button: once hit, prompt to ensure with user -> discard all records that are currently displayed and go back to Home page  -->
-                            <li class="submitbar__navigation-item"><button type="button" class="submitbar__link"
-                                    data-toggle="modal" data-target="#deleteModal">Discard</button>
-                            </li>
-                            {% endif %}
-                        </ul>
+
+                                {% endif %}
+                            </ul>
         </div>
+        </form>
+
         </section>
+
         </main>
         </div>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -120,6 +131,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+        <script src="/static/script.js"></script>
 
         <!-- Prompt Ask - New Modal -->
         <div class="modal fade" id="promptask-newModal" tabindex="-1" role="dialog"
@@ -169,27 +181,7 @@
             </div>
         </div>
 
-        <!-- Discard Modal -->
-        <div class=" modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel" style="font-size: 17px;">Discard?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        This will remove the list and cannot be undone. Still want to discard?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a href="/discard" class="btn btn-danger"">Discard</a>
-                </div>
-            </div>
-        </div>
-    </div>
+
     </body>
 
 </html>

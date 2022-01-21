@@ -1,4 +1,3 @@
-# import re
 import pymysql
 from flask import Flask, render_template, request, url_for, redirect
 
@@ -17,14 +16,14 @@ def create_app():
     # cursor.execute("DROP TABLE IF EXISTS items")
     # cursor.execute("DROP TABLE IF EXISTS lists")
 
-    #Create 'lists' table into the database.
+    # #Create 'lists' table into the database.
     # list_create_sql = 'CREATE TABLE lists (id INT PRIMARY KEY AUTO_INCREMENT, listName VARCHAR(30) NOT NULL UNIQUE,' \
     #                 'Date TIMESTAMP NOT NULL DEFAULT curRENT_TIMESTAMP)'
     # cursor.execute(list_create_sql)
 
     
 
-    #Create 'items' table into the database.
+    # #Create 'items' table into the database.
     # item_create_sql = 'CREATE TABLE items (id INT PRIMARY KEY AUTO_INCREMENT, ItemName VARCHAR(30) NOT NULL,' \
     #                 'Quantity INT, Unit VARCHAR(10), Notes VARCHAR(100),' \
     #                 'Date TIMESTAMP NOT NULL DEFAULT curRENT_TIMESTAMP,' \
@@ -56,18 +55,19 @@ def create_app():
 
             # insert items and details (multiple) to DB
             item_name = request.form.get("item") #get the name of the item input which is "item"
-            list_item = (last_id, item_name) #list of (list_id, item_name) tuples
-            item_insert_sql = "INSERT IGNORE INTO items(list_id,ItemName) VALUES(%s,%s)"
+            list_item = (last_id, item_name, 1, "pc","") #list of (list_id, item_name) tuples
+            item_insert_sql = "INSERT IGNORE INTO items(list_id,ItemName,Quantity,Unit,Notes) VALUES(%s,%s,%s,%s,%s)"
             cursor.execute(item_insert_sql,list_item)
             
             #Join lists table and items table to have the item_list table which contains item name and list name
-            item_list_sql = 'SELECT i.ItemName, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = %s'
+
+            item_list_sql = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = %s'
             cursor.execute(item_list_sql,listname)
             item_list = cursor.fetchall()
-
             # entries is a list of all items in the DB (consider entries as list)
+            
             entries = [
-                item_list[index][0] 
+                item_list[index]
                 for index in range(len(item_list)) #list all item names in the entries list
             ]         
             
@@ -77,16 +77,16 @@ def create_app():
 
 
     #'Discard' button --> to remove the current list with items from DB
-    @app.route("/discard", methods = ["GET", "POST"])
-    def discard():
+    @app.route("/discard/<listname>", methods = ["GET", "POST"])
+    def discard(listname):
         #Create the joint table 'item_list'
         item_list_sql = 'SELECT i.ItemName, l.listName FROM items i JOIN lists l ON i.list_id = l.id'
         cursor.execute(item_list_sql)
         item_list = cursor.fetchall()
         
         #Display the last list name that user inputs from the joint table 'item_list'
-        listname = item_list[len(item_list)-1][1] 
-        
+        # listname = request.form.get('list_name') 
+        print(listname)
         #Delete current list from lists table in DB, then the corresponding items will also be deleted from items table
         list_delete_sql = "DELETE FROM lists WHERE listName = %s"
         cursor.execute(list_delete_sql,listname)
@@ -94,7 +94,45 @@ def create_app():
         connection.commit()
         return render_template('home.html', entries = "", listname = "")
         
-    #Data was already saved in DB automatically when user inputs, this 'Save' button is only to redirect to the 'View history' page
+    #Hit 'save' in order to save the additional info for items
+    @app.route("/save-details/<lname>", methods =["GET","POST"])
+    def save_details(lname):
+        #Get the corresponding list id based on list name
+        list_sql = 'SELECT id FROM lists WHERE listName = %s'
+        cursor.execute(list_sql,lname)
+        list_id = cursor.fetchall()[0][0]
+        print(list_id)
+       
+        item_name = request.form.getlist('row_item')
+        quantities = request.form.getlist('row_quantity')
+        units = request.form.getlist('row_units')
+        notes = request.form.getlist('row_note')
+        new_details=[]
+
+        for i, item in enumerate(item_name):
+            quantity = int(quantities[i])
+            unit = units[i]
+            note = notes[i]
+            new_details.append((quantity, unit, note,item,list_id))
+            print(new_details)
+
+        stmt = 'UPDATE items SET Quantity = %s, Unit = %s, Notes = %s WHERE ItemName = %s and list_id = %s'
+        cursor.executemany(stmt,new_details)
+
+        item_list_sql = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = %s'
+        cursor.execute(item_list_sql,lname)
+        item_list = cursor.fetchall()
+     
+        entries = [
+            item_list[index]
+            for index in range(len(item_list))  # list all item names in the entries list
+        ]
+
+        connection.commit()
+        
+        return render_template('home.html', entries=entries, listname=lname)
+
+    #This route is to save and redirect to 'View list history' page (used for the Prompt Ask-History Modal)
     @app.route("/save", methods =["GET","POST"])
     def save():
         if request.method == "GET":
@@ -111,12 +149,12 @@ def create_app():
 
     @app.route("/save/display/<lname>")
     def display_list(lname):
-        sql_get_list_items = "SELECT i.ItemName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = %s"
+        sql_get_list_items = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = %s'
         cursor.execute(sql_get_list_items, lname)
         item_list = cursor.fetchall()
         # entries is a list of all items in the DB (consider entries as list)
         entries_list = [
-            item_list[index][0]
+            item_list[index]
             for index in range(len(item_list))  # list all item names in the entries list
         ]
         print("entries_list********** "+str(len(entries_list)))
