@@ -79,13 +79,6 @@ def create_app():
     #'Discard' button --> to remove the current list with items from DB
     @app.route("/discard/<listname>", methods = ["GET", "POST"])
     def discard(listname):
-        #Create the joint table 'item_list'
-        # item_list_sql = 'SELECT i.ItemName, l.listName FROM items i JOIN lists l ON i.list_id = l.id'
-        # cursor.execute(item_list_sql)
-        # item_list = cursor.fetchall()
-        
-        #Display the last list name that user inputs from the joint table 'item_list'
-        # listname = request.form.get('list_name') 
         print(listname)
         #Delete current list from lists table in DB, then the corresponding items will also be deleted from items table
         list_delete_sql = "DELETE FROM lists WHERE listName = %s"
@@ -180,13 +173,7 @@ def create_app():
         cursor.execute(sql_delete_list, lname)
         connection.commit()
         print("Deleted rows : "+str(cursor.rowcount))
-        # list_sql = 'SELECT listName, Date FROM lists'
-        # cursor.execute(list_sql)
-        # result_record = cursor.fetchall()
 
-        # print("The records list is", recordslist)
-
-        # return html page and list information
         return redirect(url_for('save'))   
     return app
 
