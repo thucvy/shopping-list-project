@@ -45,23 +45,23 @@ def create_app():
         if request.method == "POST":
             # insert list name (one list at a time) to DB
             listname = request.form.get("list") #get the name of the list input which is "list"
-            list_insert_sql = 'INSERT IGNORE INTO lists(listName) VALUES (%s)'
+            list_insert_sql = 'INSERT IGNORE INTO lists(listName) VALUES (TRIM(%s))'
             cursor.execute(list_insert_sql,listname)
             
             #Get the corresponding list id based on list name
-            list_sql = 'SELECT id FROM lists WHERE listName = %s'
+            list_sql = 'SELECT id FROM lists WHERE listName = TRIM(%s)'
             cursor.execute(list_sql,listname)
             last_id = cursor.fetchall()
 
             # insert items and details (multiple) to DB
             item_name = request.form.get("item") #get the name of the item input which is "item"
             list_item = (last_id, item_name, 1, "pc","") #list of (list_id, item_name) tuples
-            item_insert_sql = "INSERT IGNORE INTO items(list_id,ItemName,Quantity,Unit,Notes) VALUES(%s,%s,%s,%s,%s)"
+            item_insert_sql = "INSERT IGNORE INTO items(list_id,ItemName,Quantity,Unit,Notes) VALUES(%s,TRIM(%s),%s,%s,%s)"
             cursor.execute(item_insert_sql,list_item)
             
             #Join lists table and items table to have the item_list table which contains item name and list name
 
-            item_list_sql = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = %s'
+            item_list_sql = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = TRIM(%s)'
             cursor.execute(item_list_sql,listname)
             item_list = cursor.fetchall()
             # entries is a list of all items in the DB (consider entries as list)
@@ -81,7 +81,7 @@ def create_app():
     def discard(listname):
         print(listname)
         #Delete current list from lists table in DB, then the corresponding items will also be deleted from items table
-        list_delete_sql = "DELETE FROM lists WHERE listName = %s"
+        list_delete_sql = "DELETE FROM lists WHERE listName = TRIM(%s)"
         cursor.execute(list_delete_sql,listname)
 
         connection.commit()
@@ -91,7 +91,7 @@ def create_app():
     @app.route("/save-details/<lname>", methods =["GET","POST"])
     def save_details(lname):
         #Get the corresponding list id based on list name
-        list_sql = 'SELECT id FROM lists WHERE listName = %s'
+        list_sql = 'SELECT id FROM lists WHERE listName = TRIM(%s)'
         cursor.execute(list_sql,lname)
         list_id = cursor.fetchall()[0][0]
         print(list_id)
@@ -109,10 +109,10 @@ def create_app():
             new_details.append((quantity, unit, note,item,list_id))
             print(new_details)
 
-        stmt = 'UPDATE items SET Quantity = %s, Unit = %s, Notes = %s WHERE ItemName = %s and list_id = %s'
+        stmt = 'UPDATE items SET Quantity = %s, Unit = %s, Notes = %s WHERE ItemName = TRIM(%s) and list_id = %s'
         cursor.executemany(stmt,new_details)
 
-        item_list_sql = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = %s'
+        item_list_sql = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = TRIM(%s)'
         cursor.execute(item_list_sql,lname)
         item_list = cursor.fetchall()
      
@@ -142,7 +142,7 @@ def create_app():
 
     @app.route("/save/display/<lname>")
     def display_list(lname):
-        sql_get_list_items = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = %s'
+        sql_get_list_items = 'SELECT i.Quantity, i.Unit, i.Notes, i.ItemName, l.id, l.listName FROM items i JOIN lists l ON i.list_id = l.id WHERE l.listName = TRIM(%s)'
         cursor.execute(sql_get_list_items, lname)
         item_list = cursor.fetchall()
         # entries is a list of all items in the DB (consider entries as list)
@@ -157,7 +157,7 @@ def create_app():
     @app.route("/delete/<item_name>/<list_name>", methods =["GET","POST"])
     def delete(item_name,list_name):
         print("Query has been updated")
-        sql_delete_item = "DELETE FROM items WHERE ItemName = %s AND list_id IN(SELECT id FROM lists WHERE listName=%s)"
+        sql_delete_item = "DELETE FROM items WHERE ItemName = TRIM(%s) AND list_id IN(SELECT id FROM lists WHERE listName=TRIM(%s))"
         input_list = (item_name,list_name)
         cursor.execute(sql_delete_item, input_list)
         connection.commit()
@@ -169,7 +169,7 @@ def create_app():
     @app.route("/list_delete/<lname>", methods =["POST","GET"])
     def list_delete(lname):
         print("in delete method")
-        sql_delete_list = "DELETE from lists where listName = %s"
+        sql_delete_list = "DELETE from lists where listName = TRIM(%s)"
         cursor.execute(sql_delete_list, lname)
         connection.commit()
         print("Deleted rows : "+str(cursor.rowcount))
