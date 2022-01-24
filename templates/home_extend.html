@@ -1,11 +1,125 @@
-{% extends "home.html" %}
-{% block content %}
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    Your list and details have been successfully saved!
-    <button aria-label="Close" class="close" data-dismiss="alert">
-        <span aria-hidden="true">&times;</span>
-    </button>
+{% extends 'base.html' %}
 
+{% block nav %}
+{% if not listname %}
+<a class="nav-link active" aria-current="page" href="/">Home</a>
+<a href="/save" class="nav-link">My Lists</a>
 </div>
+<div class="d-flex">
+    <a href="/" class="nav-link"><span class="badge rounded-pill bg-primary fs-5 mx-5">+
+            New</span></a>
+    {% else %}
+    <a class="nav-link active" aria-current="page" href="#" data-toggle="modal"
+        data-target="#promptask-newModal">Home</a>
+    <a href="#" class="nav-link" data-toggle="modal" data-target="#promptask-historyModal">My
+        Lists</a>
+</div>
+<div class="d-flex">
+    <a href="#" class="nav-link" data-toggle="modal" data-target="#promptask-newModal"><span
+            class="badge rounded-pill bg-primary fs-5 mx-5">+
+            New</span></a>
+    {% endif %}
+    {% endblock nav %}
+
+    {% block content %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Your list and details have been successfully saved!
+        <button aria-label="Close" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+
+    <!-- Below is the main body of the web (below the nav bar) -->
+    <main>
+        <!-- This is the 1st section where there's a text box to input 'List name' and another text box to add 'Item name' -->
+        <section>
+            <form class="form" method="POST" action="/display">
+                <!-- Add text box for user to input the name of the new list (required) -->
+                <div>
+                    {% if not listname %}
+                    <input type="text" class="form-list__input" name="list" id="input" maxlength="30"
+                        placeholder="Name your new list" required>
+                    {% else %}
+                    <input type="text" class="form-list__input" name="list" id="input" value="{{listname}}"
+                        maxlength="30" required>
+
+                    {% endif %}
+                </div>
+
+                <!-- Add text box and button to add items into list -->
+                <div class=" form-item">
+                    <input type="text" class="form-item__input" name="item" id="input" maxlength="30"
+                        placeholder="Add item" required>
+                    <button type="submit" class="form__entry">Add</button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- This is the 2nd section which display all items that are added from the input bar above along with other information -- NEED MERGE -->
+        <section>
+            <form class="listitem" method="POST" action="/save-details/{{listname}}">
+                {% for entry in entries %}
+                <p class="list_item_row">
+                    <input class="checkbox" type="checkbox" id="{{entry[3]}}">
+                    <label for="{{entry[3]}}" class="strikethrough">{{entry[3]}}</label>
+                    <a class="list_row_delete" style="float: right;" href="/delete/{{entry[3]}}/{{listname}}">
+                        <svg xmlns=" http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd"
+                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                        </svg>
+                    </a>
+
+                    <input type="hidden" name="row_item" value="{{entry[3]}}">
+                    <input type="text" style="float: right;" class="list_row_notes" name="row_note" placeholder="Notes"
+                        value="{{entry[2]}}">
+
+                    <!-- Change Vendor to unit -->
+
+                    <select name="row_units" id="row_units" style="float: right;" class="list_row_units">
+                        <option value="{{entry[1]}}">{{entry[1]}}</option>
+                        <option value="kg">kg</option>
+                        <option value="lb">lb</option>
+                        <option value="ounce">ounce</option>
+                    </select>
+
+                    <!-- Quantity text box -->
+                    <input type="number" style="float: right;" class="list_row_quantity" id="list_row_quantity"
+                        name="row_quantity" min="1" max="99" step="1" value="{{entry[0]}}">
+
+                </p>
+
+                {% endfor %}
+                <div" class="submitbar">
+                    <ul class="submitbar__navigation">
+                        {% if listname %}
+                        <!-- Save button: once hit, save records/ changes to DB (which was automatically done when input) and redirect to View list history.  -->
+                        <li class="submitbar__navigation-item">
+                            <button type="submit" class="submitbar__link">Save</button>
+                            <!-- <a href="/save-details/{{listname}}"
+                                        class="submitbar__link">Save</a> -->
+                        </li>
+                        <!-- Discard button: once hit, prompt to ensure with user -> discard all records that are currently displayed and go back to Home page  -->
+                        <li class="submitbar__navigation-item">
+                            {% include 'confirm_discard_modal.html' %}
+                            <a href="/discard/{{listname}}" class="submitbar__link" data-toggle="modal"
+                                data-target="#deleteModal" id="discardButton{{listname}}">Discard</a>
+                            <!-- <button type="button" class="submitbar__link"
+                                        data-toggle="modal" data-target="#deleteModal">Discard</button> -->
+                        </li>
+
+
+                        {% endif %}
+                    </ul>
+</div>
+</form>
+
+</section>
+
+</main>
 
 {% endblock content %}
