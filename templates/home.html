@@ -9,36 +9,73 @@
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
             integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <title>Shopping List</title>
     </head>
 
-    <body style="background-color: #f7ede2; display: flex; flex-direction: column; min-width: 1000px">
-        <div class="bodypart">
-            <!-- create a navbar which contains a header for Shopping List and 2 links for 'Create new list' and 'View list history' -->
-            <header class="navbar">
-                <h1 class="navbar__head">Shopping List</h1>
-                <ul class="navbar__navigation">
-                    <!-- Create new list link : once hit, 
-                    1. If both List Name AND current Item list = empty -> no action (or go straight to Home page)
-                    2. If there's change -> prompt to ask user to either save or discard
-                    -->
-                    {% if not listname %}
-                    <li class="navbar__navigation-item"><a href="/" class="navbar__link"><span
-                                class="button-item">Create new list</span></a></li>
-                    <li class="navbar__navigation-item"><a href="/save" class="navbar__link"><span
-                                class="button-item">View list history</span></a></li>
-                    {% else %}
-                    <li class="navbar__navigation-item"><a href="#" class="navbar__link" data-toggle="modal"
-                            data-target="#promptask-newModal"><span class="button-item">Create new list</span></a></li>
-                    <li class="navbar__navigation-item"><a href="#" class="navbar__link" data-toggle="modal"
-                            data-target="#promptask-historyModal"><span class="button-item">View list history</span></a>
-                    </li>
-                    {% endif %}
+    <body style="background:#f5d9d5">
+        {% block content %}
+        {% endblock content %}
+        <!-- Create new list link : once hit, 
+                            1. If both List Name AND current Item list = empty -> no action (or go straight to Home page)
+                            2. If there's change -> prompt to ask user to either save or discard
+                            -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                {% if not listname %}
+                <a class="navbar-brand fs-3" href="/">
+                    <img src="https://image.shutterstock.com/image-vector/shopping-list-line-art-style-260nw-643093108.jpg"
+                        width="60" height="60" class="d-inline-block align-center" alt="">
+                    Shopping List
+                </a>
+                {% else %}
+                <a class="navbar-brand fs-3" href="#" data-toggle="modal" data-target="#promptask-newModal">
+                    <img src="https://image.shutterstock.com/image-vector/shopping-list-line-art-style-260nw-643093108.jpg"
+                        width="60" height="60" class="d-inline-block align-center" alt="">
+                    Shopping List
+                </a>
+                {% endif %}
 
-                    <!-- View list history link -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav me-auto mb-2 mb-lg-0 fs-5">
+                        {% if not listname %}
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a href="/save" class="nav-link">My Lists</a>
+                    </div>
+                    <div class="d-flex">
+                        <a href="/" class="nav-link"><span class="badge rounded-pill bg-primary fs-5 mx-5">+
+                                New</span></a>
+                        {% else %}
+                        <a class="nav-link active" aria-current="page" href="#" data-toggle="modal"
+                            data-target="#promptask-newModal">Home</a>
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#promptask-historyModal">My
+                            Lists</a>
+                    </div>
+                    <div class="d-flex">
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#promptask-newModal"><span
+                                class="badge rounded-pill bg-primary fs-5 mx-5">+
+                                New</span></a>
+                        {% endif %}
+                        <svg class="mx-5" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                            role="presentation" focusable="false" style="height: 40; width: 40; fill: currentcolor;">
+                            <path
+                                d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z">
+                            </path>
+                        </svg>
+                    </div>
 
-                </ul>
-            </header>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto my-5 p-5 bg-light content">
             <!-- Below is the main body of the web (below the nav bar) -->
             <main>
                 <!-- This is the 1st section where there's a text box to input 'List name' and another text box to add 'Item name' -->
@@ -139,6 +176,9 @@
             crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
         <script src="/static/script.js"></script>
 

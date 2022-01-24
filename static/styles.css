@@ -3,7 +3,7 @@ html {
 }
 
 body{
-    background-color: #f7ede2;
+    background:#f5d9d5;
 }
 
 h1{
@@ -16,40 +16,12 @@ h2{
     text-align: center;
 }
 
-.bodypart{
-    background-color: white;
-    margin: 35px 150px;
-    padding: 20px;
+.content {
+    border-radius: 15px;
+    font-weight: 100;
+    color: rgba(0,0,0,.9);
 }
 
-.navbar {
-    max-width: 750px;
-    margin: 5px auto;
-    padding: 0 0px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 20px;
-}
-
-.navbar__head{
-    color:grey;
-    display: flex;
-    padding: 0;
-    font-size: 40px;
-}
-
-.navbar__navigation{
-    list-style: none;
-    color:black;
-    display: flex;
-    padding: 0;
-    align-items: center;
-}
-
-.navbar__navigation-item{
-    margin-left: 25px;
-    text-align: center;
-}
 
 .button-item{
   background-color: #f7ede2; /* Green  #4CAF50 */
@@ -86,13 +58,14 @@ main{
 
 .form-list__input{
     width: 70%;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 530;
     margin-right: 20px;
+    margin-bottom: 5px;
     border: none;
     border-bottom: 1px solid #dadce0;
     padding: 1px;
-    color: grey;
+    color: rgba(0,0,0,.9);
 }
 
 .form-item{
@@ -108,13 +81,13 @@ main{
     font-size: 17px;
     font-weight: 470;
     margin-left: 15px;
-    margin-top: 2px;
+    margin-top: 5px;
     margin-right: 160px;
     margin-bottom: 4px;
     border: 2px;
     /*background-color: #f3f6f6;*/
     background-color: #f3f6f6;
-    padding-left: 5px;
+    padding: 5px;
 }
 
 .form__entry{
@@ -125,7 +98,7 @@ main{
     border-radius: 15px;
     cursor: pointer;
     background-color: #f7ede2;
-    color: grey;
+    color: darkgrey;
     border-color: #f3f6f6;
 }
 
@@ -154,7 +127,7 @@ main{
 .strikethrough{
     font-size: 20px;
     font-weight: 500;
-    color:grey;
+    color:rgba(0,0,0,.9);
 }
 
 input[type=checkbox]:checked + label{
@@ -198,7 +171,7 @@ input[type=checkbox]:checked + label + a + input + select + input {
 }
 
 .list_row_notes{
-    color:grey;
+    color:rgba(0,0,0,.9);
     width:270px;
     height: 25px;
     font-size: 14px;
@@ -208,7 +181,7 @@ input[type=checkbox]:checked + label + a + input + select + input {
 }
 
 .list_row_units{
-    color:grey;
+    color:rgba(0,0,0,.9);
     width:65px;
     height: 25px;
     font-size: 14px;
@@ -217,7 +190,7 @@ input[type=checkbox]:checked + label + a + input + select + input {
 }
 
 #list_row_quantity{
-    color:grey;
+    color:rgba(0,0,0,.9);
     width:40px;
     height: 25px;
     font-size: 14px;
@@ -316,7 +289,7 @@ th {
     border: none;
     background-color: #f7ede2;
     text-decoration: none;
-    color: black;
+    color: rgba(0,0,0,.9);
 }
 
 .table__row-delete-button:hover {

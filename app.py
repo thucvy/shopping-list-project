@@ -123,7 +123,7 @@ def create_app():
 
         connection.commit()
         
-        return render_template('home.html', entries=entries, listname=lname)
+        return render_template('home_extend.html', entries=entries, listname=lname)
 
     #This route is to save and redirect to 'View list history' page (used for the Prompt Ask-History Modal)
     @app.route("/save", methods =["GET","POST"])
@@ -166,10 +166,10 @@ def create_app():
         return response
 
     # Updated for DELETE LIST
-    @app.route("/list_delete/<lname>", methods =["POST","GET"])
+    @app.route("/list-delete/<lname>", methods =["POST","GET"])
     def list_delete(lname):
         print("in delete method")
-        sql_delete_list = "DELETE from lists where listName = TRIM(%s)"
+        sql_delete_list = "DELETE FROM lists WHERE listName = %s"
         cursor.execute(sql_delete_list, lname)
         connection.commit()
         print("Deleted rows : "+str(cursor.rowcount))
@@ -179,4 +179,4 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True)
+    app.run(debug=True, port=8080, use_reloader=False)
