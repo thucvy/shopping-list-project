@@ -1,15 +1,16 @@
 import pymysql
+import os
 from flask import Flask, render_template, request, url_for, redirect
 
 def create_app():
     app = Flask(__name__)
     # Connect to DB
     connection = pymysql.connect(
-        host='testshoppinglist.cehvmw6cebib.us-east-1.rds.amazonaws.com',
+        host=os.environ.get('host'),
         port=3306,
-        user='admin',
-        password='password1',
-        db='ShoppingList'
+        user=os.environ.get('user'),
+        password=os.environ.get('password'),
+        db=os.environ.get('db')
     )
     cursor = connection.cursor()
 
